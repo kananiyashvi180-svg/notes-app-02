@@ -186,3 +186,32 @@ exports.updateNote = async (req, res) => {
     });
   }
 };
+
+// DELETE NOTE
+exports.deleteNote = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedNote = await Note.findByIdAndDelete(id);
+
+    if (!deletedNote) {
+      return res.status(404).json({
+        success: false,
+        message: "Note not found",
+        data: null,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Note deleted successfully",
+      data: null,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      data: null,
+    });
+  }
+};
